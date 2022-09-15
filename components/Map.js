@@ -33,7 +33,7 @@ const style = {};
 
 export default function Map(props) {
   const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: "AIzaSyD9Cwj7bVfuRdmh_YzNjC4qPjPhft67G9g",
+    googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   });
 
   //maintain state without causing re-render
