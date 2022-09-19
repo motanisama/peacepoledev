@@ -16,42 +16,44 @@ import Comment from "./Comment";
 import { useRouter } from "next/router";
 import { AtSignIcon } from "@chakra-ui/icons";
 import { createComment } from "../lib/db";
+import BadWordsFilter from "bad-words";
+import { useForm } from "react-hook-form";
 
 function CommentSection({ poleId, data }) {
   const inputEl = useRef(null);
   const textEl = useRef(null);
   const router = useRouter();
 
+  const filter = new BadWordsFilter();
+  const {
+    handleSubmit,
+    register,
+    formState: { errors },
+    reset,
+    setError,
+  } = useForm();
+
+  const comment = register("comment");
   //get data
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    // const newFeedBack = {
-    //   siteId,
-    //   route: route || "/",
-    //   author: auth.user.name,
-    //   authorid: auth.user.uid,
-    //   siteid: router.query.siteid,
-    //   text: inputEl.current.value,
-    //   createdAt: new Date().toISOString(),
-    //   provider: auth.user.provider,
-    //   status: "pending",
-    // };
+  const onSubmit = (data) => {
+    console.log(data);
+    const bodyIsProfane = filter.isProfane(data.body);
+    const authorisProfane = filter.isProfane(data.comment);
+
+    if (bodyIsProfane || authorisProfane) {
+      return;
+    }
 
     const newComment = {
       poleId,
-      author: inputEl.current.value,
-      body: textEl.current.value,
+      author: data.comment,
+      body: data.body,
       createdAt: new Date().toISOString(),
     };
 
-    console.log(inputEl.current.value);
-    console.log(textEl.current.value);
-
     createComment(newComment);
-
-    inputEl.current.value = "";
-    textEl.current.value = "";
+    reset();
   };
   return (
     <Box m={4} maxWidth="700px" margin={"0 auto"}>
@@ -65,7 +67,7 @@ function CommentSection({ poleId, data }) {
         maxWidth="700px"
         margin={"0 auto"}
       >
-        <Box as="form" onSubmit={onSubmit}>
+        <Box as="form" onSubmit={handleSubmit(onSubmit)}>
           <FormControl my={4}>
             <FormLabel htmlFor="comment">Comment</FormLabel>
             <InputGroup>
@@ -76,16 +78,26 @@ function CommentSection({ poleId, data }) {
                 type="comment"
                 id="comment"
                 mb={4}
+                {...register("comment", {
+                  required: "Required",
+                  maxLength: 30,
+                })}
               />
             </InputGroup>
 
             <Textarea
+              as={"input"}
               placeholder="Start typing here..."
               ref={textEl}
               type="comment"
               id="body"
               mb={4}
+              {...register("body", {
+                required: "Required",
+                maxLength: "280",
+              })}
             />
+
             <Button
               type="submit"
               fontWeight={"medium"}
@@ -96,7 +108,7 @@ function CommentSection({ poleId, data }) {
           </FormControl>
         </Box>
         {data?.map((datafields) => (
-          <Comment data={datafields} />
+          <Comment data={datafields} key={datafields.createdAt} />
         ))}
       </Box>
     </Box>

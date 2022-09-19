@@ -3,24 +3,22 @@ import React from "react";
 import Link from "next/link";
 import { AtSignIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
-function PoleBody() {
+function PoleBody({ pole }) {
+  console.log(pole);
+  console.log(pole.Description);
+
   return (
     <Box m={4} mt={4} maxWidth="700px" margin={"0 auto"}>
-      <Heading mb={2}>Hilo's main pole</Heading>
+      <Heading mb={2}>{pole.title}</Heading>
       <Heading mb={2} size={"md"}>
         Description
       </Heading>
-      <Text>
-        Lorem Ipsum is simply dummy text of the printing and typesetting
-        industry. Lorem Ipsum has been the industry's standard dummy text ever
-        since the 1500s, when an unknown printer took a galley of type and
-        scrambled it to make a type specimen book. It has survived not only five
-        centuries, but also the leap into electronic typesetting, remaining
-        essentially unchanged. It was popularised in the 1960s with the release
-        of Letraset sheets containing Lorem Ipsum passages, and more recently
-        with desktop publishing software like Aldus PageMaker including versions
-        of Lorem Ipsum
+      <Text>{pole.sponsor}</Text>
+      <Text as="div" whiteSpace={"pre-line"}>
+        {pole.Description.replaceAll("\\n", "\n")}
       </Text>
+      <Text>{pole.importance}</Text>
+      <Text>{pole.address}</Text>
       <Box direction="column" justify={"center"} align={"end"}>
         <IconButton
           as={"a"}
