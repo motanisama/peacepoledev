@@ -51,9 +51,10 @@ export default function Home({ pole }) {
       backgroundColor={"white"}
     >
       <Map />
-
       <PoleBody pole={pole} />
-      <CommentSection poleId={router.query.poleId} data={allcomments} />
+      {allcomments && (
+        <CommentSection poleId={router.query.poleId} data={allcomments} />
+      )}
     </Box>
   );
 }

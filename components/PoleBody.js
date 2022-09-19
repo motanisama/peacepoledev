@@ -4,9 +4,6 @@ import Link from "next/link";
 import { AtSignIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 function PoleBody({ pole }) {
-  console.log(pole);
-  console.log(pole.Description);
-
   return (
     <Box m={4} mt={4} maxWidth="700px" margin={"0 auto"}>
       <Heading mb={2}>{pole.title}</Heading>
