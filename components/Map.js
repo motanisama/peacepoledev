@@ -61,11 +61,7 @@ export default function Map(props) {
         options={options}
         onLoad={onMapLoad}
       >
-        <Marker
-          id={"1"}
-          position={{ lat: 19.7182864, lng: -155.0792797 }}
-          onClick={console.log("hi!")}
-        />
+        <Marker id={"1"} position={{ lat: 19.7182864, lng: -155.0792797 }} />
       </GoogleMap>
     </div>
   );
