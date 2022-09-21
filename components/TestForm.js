@@ -41,7 +41,6 @@ export default function HookForm({ poleId }) {
 
     return new Promise((resolve) => {
       setTimeout(() => {
-        createComment(newComment);
         if (authorisProfane) {
           setError("name", {
             type: "manual",
@@ -54,6 +53,9 @@ export default function HookForm({ poleId }) {
             type: "manual",
             message: "Inappropriate content",
           });
+        }
+        if (!bodyIsProfane || !authorisProfane) {
+          createComment(newComment);
         }
         resolve();
       }, 3000);
