@@ -55,8 +55,6 @@ export default function Home() {
       <Button onClick={getData}>click</Button>
 
       <Map />
-      <PoleBody />
-      <CommentSection />
     </Box>
   );
 }
