@@ -16,7 +16,7 @@ import mapStyles from "./mapStyles";
 
 const mapContainerStyle = {
   width: "100vw",
-  height: "75vh",
+  height: "100vh",
 };
 const center = {
   lat: 19.714312,
@@ -29,9 +29,7 @@ const options = {
   styles: mapStyles,
 };
 
-const style = {};
-
-export default function Map(props) {
+export default function Map({ poles }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   });
@@ -56,11 +54,20 @@ export default function Map(props) {
     <div className="map">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={15}
+        zoom={poles ? 9 : 15}
         center={center}
         options={options}
         onLoad={onMapLoad}
       >
+        {poles &&
+          poles.map((pole) => {
+            return (
+              <Marker
+                position={{ lat: pole.geo.lat, lng: pole.geo.lng }}
+                id={pole.id}
+              />
+            );
+          })}
         <Marker id={"1"} position={{ lat: 19.7182864, lng: -155.0792797 }} />
       </GoogleMap>
     </div>

@@ -24,6 +24,7 @@ export default function HookForm({ poleId }) {
     register,
     formState: { errors, isSubmitting },
     setError,
+    reset,
   } = useForm();
   const filter = new BadWordsFilter();
   console.log(bodyCount);
@@ -36,6 +37,7 @@ export default function HookForm({ poleId }) {
       poleId,
       author: data.name,
       body: data.body,
+      location: data.location,
       createdAt: new Date().toISOString(),
     };
 
@@ -57,6 +59,7 @@ export default function HookForm({ poleId }) {
         if (!bodyIsProfane || !authorisProfane) {
           createComment(newComment);
         }
+        reset();
         resolve();
       }, 3000);
     });
@@ -81,6 +84,21 @@ export default function HookForm({ poleId }) {
           {errors.name && errors.name.message}
         </FormErrorMessage>
       </FormControl>
+      <FormControl isInvalid={errors.name}>
+        <FormLabel htmlFor="name">Where are you from?</FormLabel>
+        <InputGroup my={2}>
+          <Input
+            id="location"
+            placeholder="location..."
+            {...register("location", {
+              required: "This is required",
+            })}
+          />
+        </InputGroup>
+        <FormErrorMessage>
+          {errors.name && errors.location?.message}
+        </FormErrorMessage>
+      </FormControl>
       <FormControl isInvalid={errors.body}>
         <FormLabel htmlFor="body">Body</FormLabel>
         <Textarea
@@ -88,8 +106,6 @@ export default function HookForm({ poleId }) {
           id="body"
           placeholder="Enter a note with 240 characters..."
           {...register("body", {
-            required: "This is required",
-            minLength: { value: 4, message: "Minimum length should be 4" },
             maxLength: { value: 240, message: "240 Character limit" },
           })}
         />

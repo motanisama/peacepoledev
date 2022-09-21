@@ -14,36 +14,34 @@ import {
 } from "../lib/db";
 import Map from "../components/Map";
 
-export default function Home() {
-  useEffect(() => {
-    getData();
-  }, []);
+export async function getStaticProps() {
+  const { poles } = await getPoles();
 
-  const getData = async () => {
-    const users = await getPoles();
-    const user = await getSinglePole("xwsJQlXemhATjl5Cv2PT");
-    setData(user);
-    console.log(userData);
-    console.log(users);
+  //getstatic props return data as props to react componenet
+
+  return {
+    props: {
+      poles,
+    },
+    revalidate: 1,
+    // will be passed to the page component as props
   };
+}
 
-  const [userData, setData] = useState();
+export default function Home({ poles }) {
+  //   useEffect(() => {
+  //     getData();
+  //   }, []);
 
-  const onPressed = () => {
-    const user = createUser("2142151", {
-      test: "test",
-      date: "test",
-    });
-  };
+  // const getData = async () => {
+  //   const users = await getPoles();
+  //   const user = await getSinglePole("xwsJQlXemhATjl5Cv2PT");
+  //   setData(user);
+  //   console.log(userData);
+  //   console.log(users);
+  // };
 
-  const onCLicked = () => {
-    const comment = createComment("2121321", {
-      poleid: "dsdsa",
-      timestamp: "test",
-      name: "Matt",
-      body: "new commment!",
-    });
-  };
+  // const [userData, setData] = useState();
   return (
     <Box
       as="main"
@@ -52,9 +50,7 @@ export default function Home() {
       h="100vh"
       backgroundColor={"white"}
     >
-      <Button onClick={getData}>click</Button>
-
-      <Map />
+      <Map poles={poles} />
     </Box>
   );
 }

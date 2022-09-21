@@ -7,8 +7,12 @@ function Comment({ data }) {
   return (
     <Box border={"2px"} borderRadius={"4px"} m={2} borderColor={"gray.100"}>
       <Heading m={2}>@{data.author}</Heading>
+      <Text m={2} fontWeight={800}>
+        {" "}
+        From: {data.location}
+      </Text>
       <Text m={2} className="commentBody">
-        {data.body}
+        {data.body ? data.body : `New check in from ${data.location}`}
       </Text>
       <Box
         m={2}

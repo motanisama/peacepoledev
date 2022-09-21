@@ -7,6 +7,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useComments } from "../../lib/hooks";
 import HookForm from "../../components/TestForm";
+import Book from "../../components/Book";
 
 export async function getStaticProps(context) {
   const poleId = context.params.poleId;
