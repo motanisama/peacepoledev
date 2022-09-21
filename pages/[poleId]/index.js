@@ -41,7 +41,7 @@ export async function getStaticPaths() {
 export default function Home({ pole }) {
   const router = useRouter();
   console.log(router.query.poleId);
-  const { allcomments } = useComments(router.query.poleId);
+  const { allcomments } = useComments(pole.id);
 
   return (
     <Box
@@ -53,9 +53,7 @@ export default function Home({ pole }) {
     >
       <Map />
       {pole && <PoleBody pole={pole} />}
-      {allcomments && (
-        <CommentSection poleId={router?.query?.poleId} data={allcomments} />
-      )}
+      {allcomments && <CommentSection poleId={pole.id} data={allcomments} />}
     </Box>
   );
 }
