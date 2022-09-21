@@ -6,6 +6,7 @@ import { getCommments, getPoles, getSinglePole } from "../../lib/db";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useComments } from "../../lib/hooks";
+import HookForm from "../../components/TestForm";
 
 export async function getStaticProps(context) {
   const poleId = context.params.poleId;

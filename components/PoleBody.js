@@ -8,13 +8,18 @@ function PoleBody({ pole }) {
     <Box m={4} mt={4} maxWidth="700px" margin={"0 auto"}>
       <Heading mb={2}>{pole.title}</Heading>
       <Heading mb={2} size={"md"}>
-        Description
+        Info
       </Heading>
+
+      <Heading size={"sm"}>Sponsor</Heading>
       <Text>{pole.sponsor}</Text>
-      <Text as="div" whiteSpace={"pre-line"}>
+      <Text mb={2} as="div" whiteSpace={"pre-line"}>
         {pole.Description.replaceAll("\\n", "\n")}
       </Text>
-      <Text>{pole.importance}</Text>
+
+      <Heading size={"sm"}>Importance</Heading>
+      <Text mb={2}>{pole.importance}</Text>
+      <Heading size={"sm"}>Address</Heading>
       <Text>{pole.address}</Text>
       <Box direction="column" justify={"center"} align={"end"}>
         <IconButton

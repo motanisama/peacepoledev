@@ -63,7 +63,7 @@ export default function Map(props) {
       >
         <Marker
           id={"1"}
-          position={{ lat: 19.714312, lng: -155.077456 }}
+          position={{ lat: 19.7182864, lng: -155.0792797 }}
           onClick={console.log("hi!")}
         />
       </GoogleMap>
