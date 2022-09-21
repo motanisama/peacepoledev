@@ -53,7 +53,9 @@ export default function Home({ pole }) {
     >
       <Map />
       {pole && <PoleBody pole={pole} />}
-      {allcomments && <CommentSection poleId={pole.id} data={allcomments} />}
+      {allcomments && (
+        <CommentSection poleId={router.query.poleId} data={allcomments} />
+      )}
     </Box>
   );
 }
