@@ -77,6 +77,7 @@ export default function HookForm({ poleId }) {
             {...register("name", {
               required: "This is required",
               minLength: { value: 4, message: "Minimum length should be 4" },
+              maxLength: { value: 120, message: "Max length of 120" },
             })}
           />
         </InputGroup>
@@ -92,6 +93,7 @@ export default function HookForm({ poleId }) {
             placeholder="location..."
             {...register("location", {
               required: "This is required",
+              maxLength: { value: 120, message: "Max length of 120" },
             })}
           />
         </InputGroup>

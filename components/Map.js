@@ -3,6 +3,7 @@ import {
   useLoadScript,
   Marker,
   InfoWindow,
+  InfoBox,
 } from "@react-google-maps/api";
 import { useCallback, useContext, useEffect, useRef, useState } from "react";
 
@@ -13,10 +14,12 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import mapStyles from "./mapStyles";
+import { Text } from "@chakra-ui/react";
+import { useLocationData } from "../lib/hooks";
 
 const mapContainerStyle = {
   width: "100vw",
-  height: "100vh",
+  height: "75vh",
 };
 const center = {
   lat: 19.714312,
@@ -26,10 +29,18 @@ const center = {
 const options = {
   disableDefaultUI: true,
   zoomControl: true,
-  styles: mapStyles,
+};
+const divStyle = {
+  background: `white`,
+  border: `1px solid #ccc`,
+  padding: 15,
 };
 
-export default function Map({ poles }) {
+export default function Map() {
+  const { locations } = useLocationData();
+  const [markerOpen, setMarkerOpen] = useState(false);
+  const [selected, setSelected] = useState();
+
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
   });
@@ -54,21 +65,51 @@ export default function Map({ poles }) {
     <div className="map">
       <GoogleMap
         mapContainerStyle={mapContainerStyle}
-        zoom={poles ? 9 : 15}
-        center={center}
+        zoom={15}
+        center={
+          selected?.geo
+            ? {
+                lat: parseFloat(selected.geo.lat),
+                lng: parseFloat(selected.geo.lng),
+              }
+            : center
+        }
         options={options}
         onLoad={onMapLoad}
       >
-        {poles &&
-          poles.map((pole) => {
-            return (
-              <Marker
-                position={{ lat: pole.geo.lat, lng: pole.geo.lng }}
-                id={pole.id}
-              />
-            );
-          })}
-        <Marker id={"1"} position={{ lat: 19.7182864, lng: -155.0792797 }} />
+        {locations?.map((pole) => (
+          <Marker
+            position={{
+              lat: parseFloat(pole.geo.lat),
+              lng: parseFloat(pole.geo.lng),
+            }}
+            key={pole.title}
+            onClick={() => {
+              setSelected(pole);
+              console.log(selected);
+              mapRef.current.setZoom(17);
+            }}
+          />
+        ))}
+        {selected ? (
+          <InfoWindow
+            onCloseClick={() => {
+              setSelected(null);
+              mapRef.current.setZoom(15);
+            }}
+            position={{
+              lat: parseFloat(selected.geo.lat),
+              lng: parseFloat(selected.geo.lng),
+            }}
+            options={{
+              pixelOffset: new google.maps.Size(0, -30),
+            }}
+          >
+            <div>
+              <h1>{selected.title}</h1>
+            </div>
+          </InfoWindow>
+        ) : null}
       </GoogleMap>
     </div>
   );
