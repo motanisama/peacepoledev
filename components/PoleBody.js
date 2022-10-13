@@ -4,22 +4,27 @@ import Link from "next/link";
 import { AtSignIcon, ExternalLinkIcon } from "@chakra-ui/icons";
 
 function PoleBody({ pole }) {
+  function renderDescription(desc) {
+    if (desc === "n/a") {
+      return false;
+    }
+
+    return desc;
+  }
+
   return (
     <Box m={4} mt={4} maxWidth="700px" margin={"0 auto"}>
       <Heading mb={2}>{pole.title}</Heading>
-      <Heading mb={2} size={"md"}>
-        Info
-      </Heading>
 
-      <Heading size={"sm"}>Sponsor</Heading>
+      <Heading size={"md"}>Sponsor</Heading>
       <Text>{pole.sponsor}</Text>
-      <Text mb={2} as="div" whiteSpace={"pre-line"}>
-        {pole.Description.replaceAll("\\n", "\n")}
+      <Text mb={4} as="div" whiteSpace={"pre-line"}>
+        {renderDescription(pole.Description.replaceAll("\\n", "\n"))}
       </Text>
 
-      <Heading size={"sm"}>Importance</Heading>
-      <Text mb={2}>{pole.importance}</Text>
-      <Heading size={"sm"}>Address</Heading>
+      <Heading size={"md"}>Purpose</Heading>
+      <Text mb={4}>{pole.importance}</Text>
+      <Heading size={"md"}>Location of Peace Pole</Heading>
       <Text>{pole.address}</Text>
       <Box direction="column" justify={"center"} align={"end"}>
         <IconButton
