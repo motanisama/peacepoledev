@@ -1,4 +1,4 @@
-import { Text, Box, Heading, IconButton } from "@chakra-ui/react";
+import { Text, Box, Heading, IconButton, Button } from "@chakra-ui/react";
 import React from "react";
 import Link from "next/link";
 import { AtSignIcon, ExternalLinkIcon } from "@chakra-ui/icons";
@@ -45,6 +45,18 @@ function PoleBody({ pole }) {
           icon={<ExternalLinkIcon />}
           margin={2}
         />
+        <Button
+          as={"a"}
+          target="_blank"
+          href={`https://www.google.com/maps/search/?api=1&query=${pole.geo.lat}%2C${pole.geo.lng}`}
+          colorScheme="teal"
+          aria-label="Call Segun"
+          size="lg"
+          icon={<ExternalLinkIcon />}
+          margin={2}
+        >
+          Directions
+        </Button>
       </Box>
     </Box>
   );

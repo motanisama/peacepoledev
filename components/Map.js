@@ -14,8 +14,10 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import mapStyles from "./mapStyles";
-import { Text } from "@chakra-ui/react";
+import { Button, Text } from "@chakra-ui/react";
 import { useLocationData } from "../lib/hooks";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 const mapContainerStyle = {
   width: "100vw",
@@ -40,6 +42,7 @@ export default function Map() {
   const { locations } = useLocationData();
   const [markerOpen, setMarkerOpen] = useState(false);
   const [selected, setSelected] = useState();
+  const router = useRouter();
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS,
@@ -58,6 +61,9 @@ export default function Map() {
     mapRef.current.setZoom(10);
   }, []);
 
+  const handleButton = () => {
+    router.push(`${selected.id}`);
+  };
   if (loadError) return "Error loading maps";
   if (!isLoaded) return "Loading Maps";
 
@@ -106,7 +112,9 @@ export default function Map() {
             }}
           >
             <div>
-              <h1>{selected.title}</h1>
+              <Button onClick={handleButton}>
+                <h1>{selected.title}</h1>
+              </Button>
             </div>
           </InfoWindow>
         ) : null}
