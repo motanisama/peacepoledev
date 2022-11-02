@@ -38,7 +38,7 @@ const divStyle = {
   padding: 15,
 };
 
-export default function Map() {
+export default function Map({ size }) {
   const { locations } = useLocationData();
   const [markerOpen, setMarkerOpen] = useState(false);
   const [selected, setSelected] = useState();
@@ -70,7 +70,7 @@ export default function Map() {
   return (
     <div className="map">
       <GoogleMap
-        mapContainerStyle={mapContainerStyle}
+        mapContainerStyle={size ? size : mapContainerStyle}
         zoom={15}
         center={
           selected?.geo
